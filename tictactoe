@@ -1,0 +1,122 @@
+import java.util.Scanner;
+import java.util.InputMismatchException;
+
+public class TicTacToe {
+  
+   public static void main(String[] args) {
+       Scanner s = new Scanner(System.in);
+       char[][] board = new char[3][3];
+
+       //fills board with blank at each position
+       for (int i = 0; i < 3; i++) {
+           for (int j = 0; j < 3; j++) {
+               board[i][j] = '_';
+           }
+       }
+       System.out.println("RULES: IN ORDER TO WIN A PLAYER MUST GET 3 IN A ROW VERTICALLY DOWN THE MIDDLE COLUMN OR 3 IN A ROW HORIZONTALLY THROUGH THE MIDDLE ROW");
+
+       //counts how many moves have been made
+       int moves = 0;
+
+       //keeps track of whose turn it is
+       char turn = 'X';
+
+       System.out.println("Current board: ");
+       
+       //uses loop to print the board
+       for (int i = 0; i < 3; i++) {
+           for (int j = 0; j < 3; j++) {
+               System.out.print(board[i][j]);
+               System.out.print("\t");
+           }
+           System.out.println();
+       }
+       System.out.println(); 
+      
+       //keep playing while less than 9 moves
+       while (moves < 9) {
+          
+          //ask user for input
+          //make sure it is a valid move, row/col should be from 0-2
+          //and that the array slot is empty
+           boolean validInput = false;
+          
+          
+           while(!validInput){
+               System.out.print("Enter row (0-2): ");
+               try {int row = s.nextInt();
+               System.out.print("Enter column (0-2): ");
+               int column = s.nextInt();
+               
+               if(row>=0 && row<=2 && column>=0 && column<=2){
+                   if(board[row][column]=='_'){
+                       board[row][column] = turn;
+                       validInput = true;
+                   }
+                   else{
+                       System.out.println("Position already filled, enter again");
+                   }
+               }
+               else{
+                   System.out.println("Invalid Position, enter again");
+               }
+            } catch (NumberFormatException e) {
+        System.out.println("Error! Invalid integer. Try again.");}
+           }
+          
+           
+           for (int i = 0; i < 3; i++) {
+               for (int j = 0; j < 3; j++) {
+                   System.out.print(board[i][j]);
+                   System.out.print("\t");
+               }
+               System.out.println();
+           }
+           System.out.println(); 
+          
+          
+           //check for a winner
+           boolean win = false;
+           for (int i = 0; i < 3; i++) {
+               
+               
+               //check for 3 going down the middle column
+               if (board[0][1]==board[1][1] &&
+               board[1][1]==board[2][1] &&
+               board[2][1]== turn) win = true;
+               
+               
+               //checks for 3 going through the middle row
+               if (board[1][0]==board[1][1] &&
+               board[1][1]==board[1][2] &&
+               board[1][2]== turn) win = true;
+
+               
+               
+           }
+
+          
+          
+           
+           if (win) {
+               System.out.println(turn + " wins!");
+
+               
+               break;
+           }
+
+        
+          
+           if(turn=='X')
+               turn = 'O';
+           else if(turn=='O')
+               turn = 'X';
+           
+           moves++;
+       }
+
+       
+       if (moves == 9) System.out.println("Tie game.");
+   }
+   
+}
